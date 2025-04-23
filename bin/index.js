@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const allNames = require('all-the-package-names');
 const { execSync } = require('node:child_process');
 
