@@ -1,12 +1,13 @@
 {
-  "name": "random-package",
+  "name": "lucky-package",
   "version": "1.0.0",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "main": "bin/index.js",
   "bin": {
-    "random-package": "./bin/index.js"
+    "lucky-package": "bin/index.js"
   },
   "keywords": [
     "random"
