@@ -1,0 +1,19 @@
+{
+  "name": "random-package",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "random-package": "./bin/index.js"
+  },
+  "keywords": [
+    "random"
+  ],
+  "author": "david",
+  "license": "MIT",
+  "dependencies": {
+    "all-the-package-names": "^2.0.2137"
+  }
+}

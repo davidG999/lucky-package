@@ -1,1 +1,1 @@
-# random-npm
+# random-package
