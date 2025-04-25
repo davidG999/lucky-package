@@ -15,6 +15,7 @@
   "author": "david",
   "license": "MIT",
   "dependencies": {
-    "all-the-package-names": "^2.0.2137"
+    "all-the-package-names": "^2.0.2137",
+    "minimist": "^1.2.8"
   }
 }
