@@ -1,19 +1,32 @@
 {
   "name": "lucky-package",
   "version": "1.1.0",
-  "description": "",
+  "description": "Feeling lucky? Try installing a random npm package",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node bin/index.js"
   },
   "main": "bin/index.js",
   "bin": {
     "lucky-package": "bin/index.js"
   },
   "keywords": [
-    "random"
+    "random",
+    "npm",
+    "cli",
+    "package",
+    "fun",
+    "experiment"
   ],
-  "author": "david",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidg999/lucky-package.git"
+  },
+  "author": "David",
   "license": "MIT",
+  "homepage": "https://github.com/davidg999/lucky-package#readme",
+  "bugs": {
+    "url": "https://github.com/davidg999/lucky-package/issues"
+  },
   "dependencies": {
     "all-the-package-names": "^2.0.2137",
     "minimist": "^1.2.8"
