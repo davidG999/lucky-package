@@ -1,31 +1,20 @@
 #!/usr/bin/env node
-const allNames = require('all-the-package-names');
+const chalk = require('chalk');
 const { execSync } = require('node:child_process');
-const argv = require('minimist')(process.argv.slice(2));
+const styleTextWithRandomGradient = require('../utils/styleTextWithRandomGradient.js')
+const getRandomPackageName = require('../utils/getRandomPackageName.js')
 
-(() => {
-  function isPackagePotentiallyDangerous(packageName) {
-    try {
-      const scriptsJson = execSync(`npm view ${packageName} scripts --json`, {encoding: 'utf8'});
-      if (!scriptsJson || scriptsJson.trim() === 'null') {
-        return false;
-      }
-      const scripts = JSON.parse(scriptsJson);
-      return scripts.preinstall || scripts.install || scripts.postinstall;
-    } catch {
-      return true;
-    }
-  }
+const message = (text) => console.log(chalk.white(text))
 
-  let randomName;
-  while (true) {
-    const candidate = allNames[Math.floor(Math.random() * allNames.length)];
-    if (argv.unsafe || !isPackagePotentiallyDangerous(candidate)) {
-      randomName = candidate;
-      break;
-    }
-  }
+async function main() {
+  message('🔎 Searching for a lucky package...')
 
-  console.log(`🎲 Installing random package: ${randomName}`);
-  execSync(`npm install ${randomName}`, {stdio: 'inherit'});
-})()
+  const randomPackageName = getRandomPackageName();
+  const styledPackageName = await styleTextWithRandomGradient(randomPackageName);
+
+  message(`🎉 Found it! ${chalk.bold.underline(styledPackageName)}`);
+  message("🚀 Installing...");
+  execSync(`npm install ${randomPackageName}`, { stdio: 'inherit' });
+}
+
+main()
