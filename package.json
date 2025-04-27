@@ -3,11 +3,11 @@
   "version": "1.2.0",
   "description": "Feeling lucky? Try installing a random npm package",
   "scripts": {
-    "start": "node bin/index.js"
+    "start": "node src/index.js"
   },
-  "main": "bin/index.js",
+  "main": "src/index.js",
   "bin": {
-    "lucky-package": "bin/index.js"
+    "lucky-package": "src/index.js"
   },
   "keywords": [
     "random",
@@ -30,7 +30,8 @@
   "dependencies": {
     "all-the-package-names": "^2.0.2137",
     "chalk": "4.1.2",
+    "commander": "^13.1.0",
     "gradient-string": "^3.0.0",
-    "minimist": "^1.2.8"
+    "prettier": "^3.5.3"
   }
 }

@@ -1,4 +1,6 @@
-module.exports = async function styleTextWithRandomGradient(text) {
+const chalk = require("chalk");
+
+async function styleTextWithRandomGradient(text) {
   const gradientModule = await import('gradient-string');
   const gradient = gradientModule.default;
 
@@ -13,4 +15,13 @@ module.exports = async function styleTextWithRandomGradient(text) {
 
   const randomGradient = gradients[Math.floor(Math.random() * gradients.length)]
   return gradient[randomGradient](text)
-};
+}
+
+function styledConsoleMessage(text) {
+  return console.log(chalk.white(text));
+}
+
+module.exports = {
+  styleTextWithRandomGradient,
+  styledConsoleMessage
+}

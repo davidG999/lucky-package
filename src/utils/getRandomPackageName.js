@@ -1,10 +1,9 @@
 const allPackageNames = require('all-the-package-names');
-const argv = require('minimist')(process.argv.slice(2));
 const isPackageProbablySafe = require("./isPackageProbablySafe");
 
-module.exports = function getRandomPackageName() {
+module.exports = function getRandomPackageName(options = {}) {
   let randomPackageName;
-  const unsafeFlagProvided = argv.unsafe
+  const unsafeFlagProvided = options.unsafe;
 
   while (true) {
     const candidate = allPackageNames[Math.floor(Math.random() * allPackageNames.length)];
