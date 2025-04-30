@@ -1,11 +1,14 @@
 const { execSync } = require("node:child_process");
 
-module.exports = function installPackages(packageNames, globalFlag) {
+module.exports = function installPackages(
+  packageNames,
+  isGlobalOptionProvided,
+) {
   try {
-    const globalArg = globalFlag ? "--global" : "";
+    const globalArg = isGlobalOptionProvided ? "--global" : "";
 
     const output = execSync(
-      `npm install ${packageNames.join(" ")} ${globalArg} --progress=true`,
+      `npm install ${packageNames.join(" ")} ${globalArg}`,
       { stdio: "pipe" },
     );
     process.stdout.write(output);

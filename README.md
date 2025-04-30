@@ -12,14 +12,11 @@ Even though `lucky-package` excludes packages with pre/post-install scripts by d
 $ npm install -g lucky-package
 ```
 
-## 🧐 Usage
-
-### Examples
-
+## 🧐 Examples
 
 Install a random package:
 ```
-$ lucky-package
+$ lucky-package search
 
   [1/4] 🔎 Searching for a lucky package...
   [2/4] 🎉 Found it! shittier
@@ -30,38 +27,30 @@ $ lucky-package
   14 packages are looking for funding
     run `npm fund` for details
   
-  [4/4] ✅ Installed successfully! Run lucky-package --help to see all options
+  [4/4] ✅ Installed successfully! Run lucky-package --help to see all commands
+```
 
+Install multiple random packages at once:
+```
+$ lucky-package search --amount=3
+```
+
+Uninstall the recently installed packages:
+```
+$ lucky-package rollback
 ```
 
 Feeling ✨ extra ✨ lucky? Try providing the `--unsafe` flag to include **potentially dangerous packages** that contain pre/post-install scripts. Good luck 🙂🙏
 ```
-$ lucky-package --unsafe
+$ lucky-package search --unsafe
 ```
 
-Install multiple random packages at once:
+## 📖 Usage
 
-```
-$ lucky-package --amount 3
-```
-
-Uninstall the recently installed packages:
-
-```
-$ lucky-package --rollback
-```
-
-### Options
-
-```
-$ lucky-package --help
-
-  Usage: lucky-package [options]
-
-  Options:
-    -V, --version          output the version number
-    -a, --amount <number>  specify a number of random packages to install (default: 1)
-    -u, --unsafe           include potentially unsafe packages
-    -g, --global           install package(s) globally
-    -h, --help             display help
-```
+| Command    | Alias | Options                 | Description                                                |
+|------------|-------|-------------------------|------------------------------------------------------------|
+| `search`   | `s`   | `-a, --amount <number>` | Number of random packages to install. <br/> Default: `1`   |
+|            |       | `-u, --unsafe`          | Include potentially unsafe packages (with install scripts) |
+|            |       | `-g, --global`          | Install packages globally                                  |
+| `rollback` | `r`   | `-l, --last` (default)  | Uninstall the last installed package(s) by lucky-package   |
+|            |       | `-a, --all`             | Uninstall all packages installed by lucky-package          |
