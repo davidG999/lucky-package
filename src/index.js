@@ -6,7 +6,8 @@ const program = new Command();
 
 program.name("lucky-package").version(version);
 
-require("./commands/search/search")(program);
-require("./commands/rollback/rollback")(program);
+require("./commands/install/install.command")(program);
+require("./commands/rollback/rollback.command")(program);
+require("./commands/config/config.command")(program);
 
 program.parse(process.argv);

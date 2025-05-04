@@ -1,13 +1,11 @@
-const { styledConsoleMessage } = require("../../utils/styling.util");
+const { styledConsoleMessage } = require("../../shared/styling.util");
 const chalk = require("chalk");
-const packageHistory = require("../../utils/packageHistoryManager");
+const PackageHistoryManager = require("../../shared/packageHistoryManager");
 const uninstallPackages = require("./uninstallPackages");
 
 module.exports = function uninstallAllPackagesFromHistory(allEvents) {
   if (!allEvents.length) {
-    styledConsoleMessage(
-      chalk.yellow("⚠️  No installations found to roll back"),
-    );
+    styledConsoleMessage(chalk.yellow("⚠️  No packages found to uninstall"));
     return;
   }
 
@@ -34,7 +32,7 @@ module.exports = function uninstallAllPackagesFromHistory(allEvents) {
   if (anyFailures) {
     styledConsoleMessage(chalk.yellow(" ❌ Some packages failed to uninstall"));
   } else {
-    packageHistory.writeHistory([]);
+    PackageHistoryManager.writeHistory([]);
     styledConsoleMessage(
       chalk.green(" ✅ All packages uninstalled successfully!"),
     );

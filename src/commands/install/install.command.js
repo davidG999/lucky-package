@@ -1,13 +1,14 @@
 const chalk = require("chalk");
-const { styledConsoleMessage } = require("../../utils/styling.util");
+const { styledConsoleMessage } = require("../.././shared/styling.util");
 const getRandomPackages = require("./getRandomPackages");
 const installPackages = require("./installPackages");
-const packageHistory = require("../../utils/packageHistoryManager");
+const PackageHistoryManager = require("../.././shared/packageHistoryManager");
+const runSecurityChecks = require("./runSecurityChecks");
 
 module.exports = (program) => {
   program
-    .command("search")
-    .alias("s")
+    .command("install")
+    .alias("i")
     .description("search for a random package to install")
     .option(
       "-a, --amount <number>",
@@ -16,16 +17,15 @@ module.exports = (program) => {
     )
     .option("-u, --unsafe", "include potentially unsafe packages")
     .option("-g, --global", "install package globally")
-    .action(async (options) => {
-      const amount = parseInt(options.amount);
-      const isOnePackageRequested = amount === 1;
-      const isUnsafeOptionProvided = options.unsafe;
-      const isGlobalOptionProvided = options.global;
-      const potentiallyUnsafeStyledSubstring =
-        chalk.redBright("potentially unsafe");
+    .action(async (providedOptions) => {
+      const numberOfPackagesRequested = parseInt(providedOptions.amount);
+      const isOnePackageRequested = numberOfPackagesRequested === 1;
+      const potentiallyUnsafeStyledSubstring = chalk.redBright(
+        "potentially unsafe ",
+      );
 
-      const firstStepMessageForOnePackage = `[1/4] 🔎  Searching for a ${isUnsafeOptionProvided ? potentiallyUnsafeStyledSubstring : ""}lucky package...`;
-      const firstStepMessageForMultiplePackages = `[1/4] 🔎  Searching for ${amount} ${isUnsafeOptionProvided ? potentiallyUnsafeStyledSubstring : ""}lucky packages...`;
+      const firstStepMessageForOnePackage = `[1/4] 🔎  Searching for a ${providedOptions.unsafe ? potentiallyUnsafeStyledSubstring : ""}lucky package...`;
+      const firstStepMessageForMultiplePackages = `[1/4] 🔎  Searching for ${numberOfPackagesRequested} ${providedOptions.unsafe ? potentiallyUnsafeStyledSubstring : ""}lucky packages...`;
       styledConsoleMessage(
         isOnePackageRequested
           ? firstStepMessageForOnePackage
@@ -33,21 +33,31 @@ module.exports = (program) => {
       );
 
       while (true) {
-        const packages = await getRandomPackages(amount, options);
+        const packages = await getRandomPackages(
+          numberOfPackagesRequested,
+          providedOptions,
+        );
+
+        if (!providedOptions.unsafe) {
+          const passedSecurityChecks = runSecurityChecks(packages.names);
+          if (!passedSecurityChecks) {
+            continue;
+          }
+        }
 
         styledConsoleMessage(
           `[2/4] 🎉  Found ${isOnePackageRequested ? "it" : "them"}! ${packages.styledNames.join(" ")}`,
         );
-        styledConsoleMessage("[3/4] 🚀  Installing...");
+
         const installedSuccessfully = installPackages(
           packages.names,
-          isGlobalOptionProvided,
+          providedOptions,
         );
 
         if (installedSuccessfully) {
-          packageHistory.addInstallEvent(packages.names, {
-            global: isGlobalOptionProvided,
-            unsafe: isUnsafeOptionProvided,
+          PackageHistoryManager.addInstallEvent(packages.names, {
+            global: providedOptions.global,
+            unsafe: providedOptions.unsafe,
           });
 
           styledConsoleMessage("");

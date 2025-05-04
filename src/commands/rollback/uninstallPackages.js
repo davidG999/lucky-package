@@ -1,4 +1,4 @@
-const { styledConsoleMessage } = require("../../utils/styling.util");
+const { styledConsoleMessage } = require("../.././shared/styling.util");
 const chalk = require("chalk");
 const { execSync } = require("node:child_process");
 
@@ -7,7 +7,7 @@ module.exports = function uninstallPackages(packages, isGlobal) {
   const uninstallCmd = `npm uninstall ${packages.join(" ")}${isGlobal ? " --global" : ""}`;
   try {
     styledConsoleMessage(
-      ` ⏪ Uninstalling${isGlobal ? " global" : " local"}: ${chalk.cyan(packages.join(" "))}`,
+      ` ⏪ Uninstalling${isGlobal ? " global" : " local"} packages: ${chalk.cyan(packages.join(" "))}`,
     );
     execSync(uninstallCmd, { stdio: "inherit" });
     return true;

@@ -1,6 +1,6 @@
-const { styledConsoleMessage } = require("../../utils/styling.util");
+const { styledConsoleMessage } = require("../.././shared/styling.util");
 const chalk = require("chalk");
-const packageHistory = require("../../utils/packageHistoryManager");
+const PackageHistoryManager = require("../.././shared/packageHistoryManager");
 const uninstallAllPackagesFromHistory = require("./uninstallAllPackagesFromHistory");
 const uninstallPackages = require("./uninstallPackages");
 
@@ -22,19 +22,20 @@ module.exports = (program) => {
       }
 
       if (options.all) {
-        const allEvents = packageHistory.readHistory();
+        const allEvents = PackageHistoryManager.readHistory();
         uninstallAllPackagesFromHistory(allEvents);
       } else {
-        const lastEvent = packageHistory.getLastInstallEvent();
+        const lastEvent = PackageHistoryManager.getLastInstallEvent();
         if (!lastEvent) {
           styledConsoleMessage(
-            chalk.yellow("⚠️  No installations found to roll back"),
+            chalk.yellow("⚠️  No packages found to uninstall"),
           );
           return;
         }
         if (uninstallPackages(lastEvent.packages, lastEvent.global)) {
-          packageHistory.removeLastInstallEvent();
-          styledConsoleMessage(chalk.green(" ✅ Uninstall successful!"));
+          PackageHistoryManager.removeLastInstallEvent();
+          styledConsoleMessage("");
+          styledConsoleMessage(chalk.green(" ✅ Uninstalled successfully!"));
         } else {
           styledConsoleMessage(
             chalk.red(" ❌ Uninstall failed, please check your environment"),
